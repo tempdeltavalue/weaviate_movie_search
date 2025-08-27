@@ -2,3 +2,6 @@ requests
 torch
 weaviate-client
 transformers
+sentence_transformers
+sentencepiece
+dotenv

@@ -1,2 +1,0 @@
-weavite setup:
-https://docs.weaviate.io/weaviate/quickstart/local
