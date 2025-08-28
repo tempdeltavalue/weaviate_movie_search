@@ -5,3 +5,4 @@ transformers
 sentence_transformers
 sentencepiece
 dotenv
+psycopg2-binary

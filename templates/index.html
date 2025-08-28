@@ -32,7 +32,28 @@
                 Search
             </button>
         </div>
-        
+
+        <div class="flex flex-col sm:flex-row gap-4 mb-8 items-center justify-center">
+            <div class="flex gap-2 items-center">
+                <label for="start-year-input" class="text-sm text-[#555]">Start Year:</label>
+                <input type="number" id="start-year-input" placeholder="e.g., 2015" class="w-28 p-2 rounded-md bg-[#f3f4f6] border border-[#d1d5db] text-[#333] focus:outline-none focus:border-[#ff6699] text-center">
+            </div>
+            <div class="flex gap-2 items-center">
+                <label for="end-year-input" class="text-sm text-[#555]">End Year:</label>
+                <input type="number" id="end-year-input" placeholder="e.g., 2024" class="w-28 p-2 rounded-md bg-[#f3f4f6] border border-[#d1d5db] text-[#333] focus:outline-none focus:border-[#ff6699] text-center">
+            </div>
+        </div>
+        <div class="flex items-center justify-center gap-4 mb-8">
+            <div class="flex items-center">
+                <input type="checkbox" id="tmdb-enrichment-checkbox" class="h-4 w-4 text-[#ff6699] border-[#d1d5db] rounded focus:ring-[#ff6699]">
+                <label for="tmdb-enrichment-checkbox" class="ml-2 text-sm text-[#555]">enrich tmdb</label>
+            </div>
+            <div class="flex items-center">
+                <input type="checkbox" id="gemini-enrichment-checkbox" class="h-4 w-4 text-[#ff6699] border-[#d1d5db] rounded focus:ring-[#ff6699]">
+                <label for="gemini-enrichment-checkbox" class="ml-2 text-sm text-[#555]">gemini</label>
+            </div>
+        </div>
+
         <div id="loading" class="hidden text-center text-[#ff6699] mb-4">
             <svg class="animate-spin h-8 w-8 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -47,6 +68,10 @@
     <script>
         const searchInput = document.getElementById('search-input');
         const searchButton = document.getElementById('search-button');
+        const startYearInput = document.getElementById('start-year-input');
+        const endYearInput = document.getElementById('end-year-input');
+        const tmdbEnrichmentCheckbox = document.getElementById('tmdb-enrichment-checkbox');
+        const geminiEnrichmentCheckbox = document.getElementById('gemini-enrichment-checkbox');
         const resultsContainer = document.getElementById('results-container');
         const loadingIndicator = document.getElementById('loading');
         
@@ -61,6 +86,12 @@
             const query = searchInput.value.trim();
             if (!query) return;
             
+            // Get values from the new inputs
+            const startYear = startYearInput.value ? parseInt(startYearInput.value) : null;
+            const endYear = endYearInput.value ? parseInt(endYearInput.value) : null;
+            const enrichFromTmdb = tmdbEnrichmentCheckbox.checked;
+            const useGemini = geminiEnrichmentCheckbox.checked;
+
             // Clear previous results and show loading indicator
             resultsContainer.innerHTML = '';
             loadingIndicator.classList.remove('hidden');
@@ -72,14 +103,24 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ query: query })
+                    body: JSON.stringify({ 
+                        query: query,
+                        start_year: startYear,
+                        end_year: endYear,
+                        enrich_from_tmdb: enrichFromTmdb,
+                        use_gemini: useGemini
+                    })
                 });
                 
                 const data = await response.json();
                 
-                // Pass the correct keys: 'tmdb_results' and 'weaviate_results'
-                displayResults(data.tmdb_results, 'TMDB Keyword Results');
-                displayResults(data.weaviate_results, 'Weaviate Semantic Results');
+                if (data.error) {
+                    resultsContainer.innerHTML = `<div class="text-red-400 text-center col-span-2">Error: ${data.error}</div>`;
+                    return;
+                }
+                
+                displayResults(data.tmdb_results, 'TMDB Keyword Search Results');
+                displayResults(data.weaviate_results, 'Weaviate Semantic Search Results');
                 
             } catch (error) {
                 console.error('Search failed:', error);
@@ -91,9 +132,7 @@
         }
         
         function displayResults(results, title) {
-            // Correctly handle the case where the result is null or undefined
             if (!results) {
-                console.error(`Received no results for title: ${title}`);
                 return;
             }
 
@@ -115,7 +154,6 @@
                 const card = document.createElement('div');
                 card.className = 'bg-[#f8f0f0] p-4 rounded-lg shadow-md flex flex-col items-center text-center transition-transform transform hover:scale-105';
                 
-                // Fix: Use 'poster_path' from the JSON and form the full URL
                 const posterPath = movie.poster_path;
                 const posterUrl = posterPath ? `https://image.tmdb.org/t/p/w200${posterPath}` : 'https://placehold.co/200x300/30363d/8b949e?text=No+Poster';
                 

@@ -1,9 +1,12 @@
+# ==============================================================================
+# app.py
+# This script hosts the Flask API for the movie search engine.
+# ==============================================================================
 import os 
 import traceback
 
 from flask import Flask, request, jsonify, render_template
-# Make sure to import the updated SearchEngine class
-from search_engine import SearchEngine 
+from search_engine import SearchEngine, SearchConfig
 from dotenv import load_dotenv
 from event_bus import event_bus
 
@@ -17,13 +20,6 @@ app = Flask(__name__, template_folder='templates')
 
 # Create a SearchEngine instance and subscribe it to the event bus
 search_engine = SearchEngine(event_bus)
-
-# --- NEW SERVER-SIDE FLAG TO CONTROL GEMINI USAGE ---
-USE_GEMINI = True
-# Set this to True to use Gemini for query refinement.
-# Set this to False to skip Gemini and use the raw query.
-# You must restart the server for this change to take effect.
-# ----------------------------------------------------
 
 
 # ==============================================================================
@@ -40,12 +36,31 @@ def search():
     try:
         data = request.get_json()
         query = data.get('query', '')
+        
+        # Get optional parameters from the request data
+        start_year = data.get('start_year', None)
+        end_year = data.get('end_year', None)
+        enrich_from_tmdb = data.get('enrich_from_tmdb', False)
+        use_gemini = data.get('use_gemini', True)
+
         if not query:
             return jsonify({"error": "No query provided"}), 400
         
-        # Call the search engine's run_search method and pass the server-side flag
-        # The returned dictionary is correctly handled by jsonify.
-        results = search_engine.run_search(query, use_gemini=USE_GEMINI)
+        # Create a SearchConfig object from the provided parameters
+        search_config = SearchConfig(
+            start_year=start_year,
+            end_year=end_year
+        )
+        
+        print(f"Received search request for: '{query}' with config: {search_config} and enrich={enrich_from_tmdb}, use_gemini={use_gemini}")
+        
+        # Call the search engine's run_search method with all parameters
+        results = search_engine.run_search(
+            search_query=query, 
+            search_config=search_config,
+            enrich_from_tmdb=enrich_from_tmdb,
+            use_gemini=use_gemini
+        )
         
         return jsonify(results)
     except Exception as e:
@@ -62,4 +77,4 @@ if __name__ == "__main__":
     search_engine.subscribe_to_event_bus()
 
     print("Initializing Flask app...")
-    app.run(host='0.0.0.0', port=5001)
+    app.run(host='0.0.0.0', port=5000)

@@ -1,99 +1,117 @@
 # ==============================================================================
-# Helper functions for NLP models, embeddings, and query generation.
-# This file now uses the Gemini API for title generation.
+# helpers/model_loader.py
+# This script handles the loading of the embedding model, vector creation,
+# and movie title generation using the Gemini API.
 # ==============================================================================
 import sys
 import os 
 import json
 import torch
-import random
 import requests
 import traceback
 
 from sentence_transformers import SentenceTransformer
-from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
+from dataclasses import dataclass, field
+from typing import List, Dict
 
 # ==============================================================================
-# Global Model Configuration
+# Global Model and API Configuration
 # ==============================================================================
-# Use a tiny and fast model for demonstration
-# You can set this environment variable to a different model if you want
-MODEL_NAME = os.getenv("HF_MODEL_NAME", "sentence-transformers/all-MiniLM-L6-v2")
-MODEL = None
+# The embedding model for semantic search
+MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
+_sentence_model = None
 
 # API configuration for the Gemini API call
 API_KEY = os.getenv("API_KEY_GEMINI")
-API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=" + API_KEY
+if not API_KEY:
+    print("Warning: API_KEY_GEMINI environment variable is not set.", file=sys.stderr)
+API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=" + str(API_KEY)
 
-# Set this flag to False to use the dummy function,
-# or True to use the real model for movie title extraction.
-# This is a key configuration for the `generate_search_query` function.
-use_real_model = True
 
-# Global model for query generation
-_query_generator_model = None
+@dataclass
+class GeminiPromptConfig:
+    """A data class to hold all parameters for the Gemini prompt."""
+    query: str
+    start_year: int = None
+    end_year: int = None
+    # Add other parameters here, like genre, actor, etc.
 
 # ==============================================================================
 # Functions for Text Embeddings (for Semantic Search)
 # ==============================================================================
-def load_model():
+def load_embedding_model():
     """Loads the sentence-transformer model once."""
-    global MODEL
-    if MODEL is None:
-        print(f"Loading model: {MODEL_NAME}...")
+    global _sentence_model
+    if _sentence_model is None:
+        print(f"Loading embedding model: {MODEL_NAME}...")
         try:
-            # Check for GPU availability
-            device = "cuda" if torch.cuda.is_available() else "cpu"
-            MODEL = SentenceTransformer(MODEL_NAME, device=device)
-            print("Model loaded successfully.")
+            device = "cpu"
+            _sentence_model = SentenceTransformer(MODEL_NAME, device=device)
+            print("Embedding model loaded successfully.")
             print(f"Model is running on device: {device}")
         except Exception as e:
-            print(f"Failed to load model: {e}", file=sys.stderr)
-            # Fallback to a simple error
-            MODEL = None
-    return MODEL
+            print(f"Failed to load embedding model: {e}", file=sys.stderr)
+            _sentence_model = None
+    return _sentence_model
 
-def get_text_embedding(text: str) -> list[float]:
+def get_text_embedding(text: str) -> List[float]:
     """Generates an embedding for a single text using the loaded model."""
-    model = load_model()
+    model = load_embedding_model()
     if model:
-        # The encode method handles single texts as well, but we'll use a list
-        # for consistency with the batch function.
-        embedding = model.encode([text])
-        return embedding[0].tolist()
-    else:
-        # Fallback to a random vector if the model fails to load
-        return [random.uniform(-1, 1) for _ in range(384)] # Note: The model's dimension is 384
+        try:
+            embedding = model.encode(text, convert_to_tensor=True)
+            return embedding.tolist()
+        except Exception as e:
+            print(f"Error encoding text: {e}", file=sys.stderr)
+            return None
+    print("Could not generate embedding due to missing model.", file=sys.stderr)
+    return None
 
-def get_text_embeddings_batch(texts: list[str]) -> list[list[float]]:
-    """Generates a batch of embeddings for a list of texts using the loaded model."""
-    model = load_model()
+def get_text_embeddings_batch(texts: List[str]) -> List[List[float]]:
+    """Generates a batch of embeddings for a list of strings."""
+    model = load_embedding_model()
     if model:
-        embeddings = model.encode(texts, convert_to_tensor=True)
-        return embeddings.tolist()
-    else:
-        # Fallback to random vectors if the model fails to load
-        return [[random.uniform(-1, 1) for _ in range(384)] for _ in texts] # Note: The model's dimension is 384
+        try:
+            embeddings = model.encode(texts, convert_to_tensor=True)
+            return embeddings.tolist()
+        except Exception as e:
+            print(f"Error encoding batch texts: {e}", file=sys.stderr)
+            return []
+    print("Could not generate embeddings due to missing model.", file=sys.stderr)
+    return []
 
 # ==============================================================================
-# Functions for Query Generation
+# Functions for Query Generation using Gemini API
 # ==============================================================================
-def get_movie_titles_from_gemini(text: str) -> list[str]:
+def get_movie_titles_from_gemini(prompt_config: GeminiPromptConfig) -> List[str]:
     """
-    Generates a list of movie titles based on a text description using the Gemini API.
+    Generates a list of movie titles based on a prompt configuration.
     
     Args:
-        text (str): The text description of a movie or a movie request.
+        prompt_config (GeminiPromptConfig): An object containing all prompt parameters.
 
     Returns:
         list[str]: A list of movie titles generated by the API.
     """
     try:
-        # Use a structured JSON output to ensure the API returns a clean list.
-        # The prompt is updated to request 10 titles.
+        year_prompt = ""
+        if prompt_config.start_year and prompt_config.end_year:
+            year_prompt = f" from {prompt_config.start_year} to {prompt_config.end_year}"
+        elif prompt_config.start_year:
+            year_prompt = f" from {prompt_config.start_year} or later"
+        elif prompt_config.end_year:
+            year_prompt = f" from {prompt_config.end_year} or earlier"
+            
+        full_prompt = (
+            f"Based on the following description, provide a list of 10 movie titles that match. "
+            f"The movies should be{year_prompt}. "
+            f"Only include the titles in your response."
+            f"Do not include any other text or formatting besides a list of JSON objects.\n\nDescription: {prompt_config.query}"
+        )
+        
         payload = {
             "contents": [{
-                "parts": [{ "text": f"Based on the following description, provide a list of 10 movie titles that match. Only include the titles in your response.\n\nDescription: {text}" }]
+                "parts": [{ "text": full_prompt }]
             }],
             "generationConfig": {
                 "responseMimeType": "application/json",
@@ -115,13 +133,10 @@ def get_movie_titles_from_gemini(text: str) -> list[str]:
         
         result = response.json()
         
-        # Extract the JSON string from the nested API response.
         json_str = result['candidates'][0]['content']['parts'][0]['text']
         
-        # Parse the JSON string into a Python list of dictionaries.
         titles_list_of_dicts = json.loads(json_str)
         
-        # Extract just the title strings.
         titles = [item['movie_title'] for item in titles_list_of_dicts]
         
         if titles:
@@ -134,67 +149,3 @@ def get_movie_titles_from_gemini(text: str) -> list[str]:
         print(f"An error occurred during title generation: {e}", file=sys.stderr)
         traceback.print_exc()
         return []
-
-def generate_search_query_from_description(user_input: str) -> str:
-    """
-    Generates a search query based on the user_input using the Gemini API.
-    This is an internal helper function.
-    """
-    try:
-        # Call the new function to get a list of titles from the API
-        titles = get_movie_titles_from_gemini(user_input)
-        
-        if titles:
-            # We will use the first title generated as the search query
-            generated_query = f"{titles[0]} movie"
-            print(f"Identified movie title: '{titles[0]}'")
-            print(f"Generated query: '{generated_query}'")
-            return generated_query
-        else:
-            print("No movie title found. Returning original query.")
-            return user_input
-    except Exception as e:
-        print(f"An error occurred during query generation: {e}", file=sys.stderr)
-        return user_input
-
-def get_dummy_query(user_input: str) -> str:
-    """
-    Returns the hardcoded string "love" as a placeholder.
-    This is an internal helper function.
-    """
-    print("Using dummy function to return 'love' as the search query.")
-    return "Space"
-
-def generate_search_query(user_input: str) -> str:
-    """
-    The main function for generating a search query based on user input.
-    It uses either a real NLP model or a dummy function based on the
-    `use_real_model` flag.
-    """
-    if use_real_model:
-        return generate_search_query_from_description(user_input)
-    else:
-        return get_dummy_query(user_input)
-
-# ==============================================================================
-# Main execution block for testing the NLP helper
-# ==============================================================================
-def main():
-    """A test function for the NLP helper."""
-    # Test with the real model
-    embedding_real = get_text_embedding("A film about a famous pirate of the caribbean")
-    print(f"Embedding from real model: {embedding_real[:5]}...") # Print first 5 elements
-    
-    # Test with the dummy query function
-    dummy_query = generate_search_query("A thrilling action movie with lots of explosions and car chases")
-    print(f"Dummy generated query: '{dummy_query}'")
-
-    # ==========================================================================
-    # New section to demonstrate generating and printing a list of 10 titles
-    # ==========================================================================
-    print("\n--- Demonstrating direct title list generation (10 titles) ---")
-    list_of_titles = get_movie_titles_from_gemini("A movie about a spy in the Cold War.")
-    print(f"Generated list of 10 titles: {list_of_titles}")
-
-if __name__ == "__main__":
-    main()
