@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tempdelta movie search</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: white;
+            color: #333;
+        }
+        .pink-gradient-button {
+            background-image: linear-gradient(to right, #e33c7a, #ff6699);
+            transition: all 0.3s ease;
+        }
+        .pink-gradient-button:hover {
+            background-image: linear-gradient(to right, #ff6699, #e33c7a);
+            box-shadow: 0 4px 15px rgba(227, 60, 122, 0.4);
+        }
+    </style>
+</head>
+<body class="p-8">
+    <div class="max-w-4xl mx-auto bg-[#f8f0f0] p-8 rounded-lg shadow-lg">
+        <h1 class="text-4xl font-bold text-center mb-6 text-[#ff6699]">tempdelta movie search</h1>
+        <p class="text-center text-[#555] mb-8">Search for movies using semantic or keyword queries.</p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 mb-8">
+            <input type="text" id="search-input" placeholder="Enter your search query..." class="flex-grow p-3 rounded-md bg-[#f3f4f6] border border-[#d1d5db] text-[#333] focus:outline-none focus:border-[#ff6699] transition-colors">
+            <button id="search-button" class="pink-gradient-button text-white font-bold py-3 px-6 rounded-md">
+                Search
+            </button>
+        </div>
+        
+        <div id="loading" class="hidden text-center text-[#ff6699] mb-4">
+            <svg class="animate-spin h-8 w-8 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+        </div>
+
+        <div id="results-container" class="mt-8">
+            </div>
+    </div>
+
+    <script>
+        const searchInput = document.getElementById('search-input');
+        const searchButton = document.getElementById('search-button');
+        const resultsContainer = document.getElementById('results-container');
+        const loadingIndicator = document.getElementById('loading');
+        
+        searchButton.addEventListener('click', performSearch);
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+        
+        async function performSearch() {
+            const query = searchInput.value.trim();
+            if (!query) return;
+            
+            // Clear previous results and show loading indicator
+            resultsContainer.innerHTML = '';
+            loadingIndicator.classList.remove('hidden');
+            searchButton.disabled = true;
+            
+            try {
+                const response = await fetch('/search', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ query: query })
+                });
+                
+                const data = await response.json();
+                
+                // Pass the correct keys: 'tmdb_results' and 'weaviate_results'
+                displayResults(data.tmdb_results, 'TMDB Keyword Results');
+                displayResults(data.weaviate_results, 'Weaviate Semantic Results');
+                
+            } catch (error) {
+                console.error('Search failed:', error);
+                resultsContainer.innerHTML = `<div class="text-red-400 text-center col-span-2">An error occurred while searching. Please try again.</div>`;
+            } finally {
+                loadingIndicator.classList.add('hidden');
+                searchButton.disabled = false;
+            }
+        }
+        
+        function displayResults(results, title) {
+            // Correctly handle the case where the result is null or undefined
+            if (!results) {
+                console.error(`Received no results for title: ${title}`);
+                return;
+            }
+
+            const titleElement = document.createElement('h2');
+            titleElement.className = 'text-3xl font-bold text-center col-span-2 mt-8 mb-4 text-[#ff6699]';
+            titleElement.textContent = title;
+            resultsContainer.appendChild(titleElement);
+            
+            const resultsGrid = document.createElement('div');
+            resultsGrid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6';
+            resultsContainer.appendChild(resultsGrid);
+
+            if (results.length === 0) {
+                resultsGrid.innerHTML = `<div class="text-center col-span-2 text-[#8b949e]">No movies found from this source. Try a different query.</div>`;
+                return;
+            }
+            
+            results.forEach(movie => {
+                const card = document.createElement('div');
+                card.className = 'bg-[#f8f0f0] p-4 rounded-lg shadow-md flex flex-col items-center text-center transition-transform transform hover:scale-105';
+                
+                // Fix: Use 'poster_path' from the JSON and form the full URL
+                const posterPath = movie.poster_path;
+                const posterUrl = posterPath ? `https://image.tmdb.org/t/p/w200${posterPath}` : 'https://placehold.co/200x300/30363d/8b949e?text=No+Poster';
+                
+                let sourceTag = '';
+                if (title.includes('Semantic')) {
+                    sourceTag = `<span class="bg-[#ff6699] text-white text-xs font-bold px-2 py-1 rounded-full absolute top-2 right-2">Semantic</span>`;
+                } else if (title.includes('Keyword')) {
+                    sourceTag = `<span class="bg-[#e33c7a] text-white text-xs font-bold px-2 py-1 rounded-full absolute top-2 right-2">Keyword</span>`;
+                }
+
+                card.innerHTML = `
+                    <div class="relative w-48 h-72 mb-4">
+                        <img src="${posterUrl}" alt="${movie.title} poster" class="w-full h-full rounded-md object-cover shadow-lg">
+                        ${sourceTag}
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">${movie.title}</h3>
+                    <p class="text-sm text-[#555] mb-2 overflow-hidden overflow-ellipsis h-20">${movie.overview}</p>
+                    ${movie.distance !== undefined ? `<p class="text-sm text-[#555] mb-1">Distance: ${movie.distance.toFixed(4)}</p>` : ''}
+                    ${movie.certainty !== undefined ? `<p class="text-sm text-[#555]">Certainty: ${movie.certainty.toFixed(4)}</p>` : ''}
+                `;
+                
+                resultsGrid.appendChild(card);
+            });
+        }
+    </script>
+</body>
+</html>

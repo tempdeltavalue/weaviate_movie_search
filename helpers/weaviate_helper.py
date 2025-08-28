@@ -76,9 +76,9 @@ def save_embeddings_to_weaviate(movies_data: list, delete_collection: bool = Fal
         movies_collection = setup_weaviate_collection(client, delete_if_exists=delete_collection)
         
         # Filter movies with valid overviews
-        valid_movies = [movie for movie in movies_data if movie.get("overview")]
-        overviews = [movie["overview"] for movie in valid_movies]
-        movie_ids = [movie["id"] for movie in valid_movies]
+        valid_movies = [movie for movie in movies_data if movie.overview]
+        overviews = [movie.overview for movie in valid_movies]
+        movie_ids = [movie.id for movie in valid_movies]
         
         # Generate embeddings in a single batch call using the imported function
         print(f"\nGenerating {len(overviews)} embeddings in a batch...")
