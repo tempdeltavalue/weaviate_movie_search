@@ -1,6 +1,6 @@
 # event_bus.py
 from collections import defaultdict
-
+import sys
 class EventBus:
     def __init__(self):
         self._handlers = defaultdict(list)

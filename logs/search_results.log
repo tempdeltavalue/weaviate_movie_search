@@ -1,0 +1,185 @@
+2025-08-29 19:31:29,060 - --- Movie Search Application Starting ---
+2025-08-29 19:31:29,946 - 
+--- Running Search Tasks ---
+2025-08-29 19:31:29,946 - 
+--- Starting concurrent search tasks ---
+2025-08-29 19:31:39,140 - 
+--- Search for 'I want to see movies by Gaspar Noe from the 2000s' completed. Results collected. ---
+2025-08-29 19:31:39,144 - 
+--- Search for 'A horror movie with suspenseful elements' completed. Results collected. ---
+2025-08-29 19:31:39,145 - 
+--- All search tasks have completed in 9.20 seconds. ---
+2025-08-29 19:31:39,146 - 
+--- Final Collected Results ---
+2025-08-29 19:31:39,146 - 
+--- Results for query: 'I want to see movies by Gaspar Noe from the 2000s' ---
+2025-08-29 19:31:39,147 - TMDb Results:
+2025-08-29 19:31:39,148 - - Irreversible
+2025-08-29 19:31:39,148 - - Love
+2025-08-29 19:31:39,148 - - Climax
+2025-08-29 19:31:39,149 - - Enter the Void
+2025-08-29 19:31:39,149 - - Destricted
+2025-08-29 19:31:39,149 - - Carne
+2025-08-29 19:31:39,150 - - 8
+2025-08-29 19:31:39,150 - - Circus Maximus
+2025-08-29 19:31:39,150 - - I Stand Alone
+2025-08-29 19:31:39,150 - - Pulpe Amère
+2025-08-29 19:31:39,151 - - Untitled Gaspar Noé kids film
+2025-08-29 19:31:39,153 - - Eva
+2025-08-29 19:31:39,153 - - A Hypnotic Television Experience
+2025-08-29 19:31:39,153 - - Vortex
+2025-08-29 19:31:39,153 - - Lux Æterna: The Art of Filmmaking
+2025-08-29 19:31:39,154 - - Lux Æterna
+2025-08-29 19:31:39,154 - - 7 Days in Havana
+2025-08-29 19:31:39,154 - - Intoxication
+2025-08-29 19:31:39,154 - - Short Plays
+2025-08-29 19:31:39,154 - - 42 One Dream Rush
+2025-08-29 19:31:39,154 - - Tintarella di Luna
+2025-08-29 19:31:39,154 - - 8: SIDA
+2025-08-29 19:31:39,154 - - Sodomites
+2025-08-29 19:31:39,154 - - Destricted: We Fuck Alone
+2025-08-29 19:31:39,155 - Weaviate Results:
+2025-08-29 19:31:39,155 - - The Shining (Distance: 0.7915, Certainty: 0.6042)
+2025-08-29 19:31:39,155 - - Marley & Me (Distance: 0.8198, Certainty: 0.5901)
+2025-08-29 19:31:39,155 - - Life Is Beautiful (Distance: 0.8635, Certainty: 0.5683)
+2025-08-29 19:31:39,155 - - Hachi: A Dog's Tale (Distance: 0.8662, Certainty: 0.5669)
+2025-08-29 19:31:39,155 - - Up (Distance: 0.9053, Certainty: 0.5473)
+2025-08-29 19:31:39,155 - - The Green Mile (Distance: 0.9144, Certainty: 0.5428)
+2025-08-29 19:31:39,155 - - A Walk to Remember (Distance: 0.9487, Certainty: 0.5257)
+2025-08-29 19:31:39,155 - - Jaws (Distance: 0.9505, Certainty: 0.5247)
+2025-08-29 19:31:39,155 - - P.S. I Love You (Distance: 0.9564, Certainty: 0.5218)
+2025-08-29 19:31:39,156 - - My Sister's Keeper (Distance: 1.0576, Certainty: 0.4712)
+2025-08-29 19:31:39,156 - 
+--- Results for query: 'A horror movie with suspenseful elements' ---
+2025-08-29 19:31:39,156 - TMDb Results:
+2025-08-29 19:31:39,156 - - Psycho
+2025-08-29 19:31:39,156 - - The Silence of the Lambs
+2025-08-29 19:31:39,156 - - Rosemary's Baby
+2025-08-29 19:31:39,156 - - Alien
+2025-08-29 19:31:39,156 - - The Exorcist
+2025-08-29 19:31:39,156 - - Hereditary
+2025-08-29 19:31:39,157 - - Get Out
+2025-08-29 19:31:39,157 - - A Quiet Place
+2025-08-29 19:31:39,157 - - It Follows
+2025-08-29 19:31:39,157 - - The Babadook
+2025-08-29 19:31:39,157 - Weaviate Results:
+2025-08-29 19:31:39,157 - - Marley & Me (Distance: 0.6507, Certainty: 0.6747)
+2025-08-29 19:31:39,157 - - The Green Mile (Distance: 0.6599, Certainty: 0.6700)
+2025-08-29 19:31:39,157 - - Hachi: A Dog's Tale (Distance: 0.6824, Certainty: 0.6588)
+2025-08-29 19:31:39,157 - - Jaws (Distance: 0.7428, Certainty: 0.6286)
+2025-08-29 19:31:39,157 - - The Shining (Distance: 0.7545, Certainty: 0.6228)
+2025-08-29 19:31:39,158 - - Life Is Beautiful (Distance: 0.7698, Certainty: 0.6151)
+2025-08-29 19:31:39,158 - - Up (Distance: 0.8309, Certainty: 0.5845)
+2025-08-29 19:31:39,158 - - My Sister's Keeper (Distance: 0.8571, Certainty: 0.5714)
+2025-08-29 19:31:39,158 - - A Walk to Remember (Distance: 0.8883, Certainty: 0.5559)
+2025-08-29 19:31:39,161 - - P.S. I Love You (Distance: 0.8996, Certainty: 0.5502)
+2025-08-29 19:31:39,161 - 
+--- Application Finished ---
+2025-08-29 19:34:17,609 - __main__ - INFO - --- Movie Search Application Starting ---
+2025-08-29 19:34:17,900 - httpx - INFO - HTTP Request: GET https://4zsnm3iqqeeidkrsqvr1q.c0.europe-west3.gcp.weaviate.cloud/v1/meta "HTTP/1.1 200 OK"
+2025-08-29 19:34:17,995 - httpx - INFO - HTTP Request: GET https://4zsnm3iqqeeidkrsqvr1q.c0.europe-west3.gcp.weaviate.cloud/v1/.well-known/ready "HTTP/1.1 200 OK"
+2025-08-29 19:34:17,997 - search_engine - INFO - SearchEngine initialized.
+2025-08-29 19:34:17,998 - __main__ - INFO - 
+--- Running Search Tasks ---
+2025-08-29 19:34:17,999 - __main__ - INFO - 
+--- Starting concurrent search tasks ---
+2025-08-29 19:34:18,007 - search_engine - INFO - 
+[ThreadPoolExecutor-1_0] --- Phase 2: Starting Smart Search Pipeline for 'A horror movie with suspenseful elements' ---
+2025-08-29 19:34:18,010 - search_engine - INFO - 
+[ThreadPoolExecutor-1_1] --- Phase 2: Starting Smart Search Pipeline for 'I want to see movies by Gaspar Noe from the 2000s' ---
+2025-08-29 19:34:19,646 - search_engine - INFO - [ThreadPoolExecutor-1_1] Query parsed by Gemini: {'director': 'Gaspar Noe', 'start_year': 2000, 'end_year': 2009, 'keywords': ['gaspar', 'noe', '2000s'], 'movie_titles': []}
+2025-08-29 19:34:19,647 - search_engine - INFO - 
+ 
+ parsed_query: {'director': 'Gaspar Noe', 'start_year': 2000, 'end_year': 2009, 'keywords': ['gaspar', 'noe', '2000s'], 'movie_titles': []}
+2025-08-29 19:34:19,647 - search_engine - INFO - [ThreadPoolExecutor-1_1] Director 'Gaspar Noe' found. Skipping Weaviate, going directly to TMDb.
+2025-08-29 19:34:20,168 - search_engine - INFO - [ThreadPoolExecutor-1_1] No specific director or movie titles found. Performing local semantic search...
+2025-08-29 19:34:20,229 - httpx - INFO - HTTP Request: GET https://4zsnm3iqqeeidkrsqvr1q.c0.europe-west3.gcp.weaviate.cloud/v1/schema/Movie "HTTP/1.1 200 OK"
+2025-08-29 19:34:20,233 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-08-29 19:34:22,894 - search_engine - INFO - [ThreadPoolExecutor-1_0] Query parsed by Gemini: {'keywords': [], 'director': None, 'start_year': None, 'end_year': None, 'movie_titles': ['movie_titles', 'The Babadook', 'Hereditary', 'It Follows', 'A Quiet Place', 'Get Out', 'The Conjuring', 'Insidious', 'The Ring', 'Alien', 'The Blair Witch Project']}
+2025-08-29 19:34:22,894 - search_engine - INFO - 
+ 
+ parsed_query: {'keywords': [], 'director': None, 'start_year': None, 'end_year': None, 'movie_titles': ['movie_titles', 'The Babadook', 'Hereditary', 'It Follows', 'A Quiet Place', 'Get Out', 'The Conjuring', 'Insidious', 'The Ring', 'Alien', 'The Blair Witch Project']}
+2025-08-29 19:34:22,894 - search_engine - INFO - [ThreadPoolExecutor-1_0] Gemini returned movie titles. Skipping Weaviate, going directly to TMDb.
+2025-08-29 19:34:23,245 - search_engine - INFO - [ThreadPoolExecutor-1_1] Search pipeline finished. Returning results.
+2025-08-29 19:34:23,245 - __main__ - INFO - 
+--- Search for 'I want to see movies by Gaspar Noe from the 2000s' completed. Results collected. ---
+2025-08-29 19:34:25,057 - search_engine - INFO - [ThreadPoolExecutor-1_0] Movie with ID 138843 does not exist. Saving to DB...
+2025-08-29 19:34:25,094 - search_engine - INFO - [ThreadPoolExecutor-1_0] Movie with ID 49018 does not exist. Saving to DB...
+2025-08-29 19:34:25,120 - search_engine - INFO - [ThreadPoolExecutor-1_0] Ingesting 2 new movie embeddings into Weaviate...
+2025-08-29 19:34:25,185 - httpx - INFO - HTTP Request: GET https://4zsnm3iqqeeidkrsqvr1q.c0.europe-west3.gcp.weaviate.cloud/v1/schema/Movie "HTTP/1.1 200 OK"
+2025-08-29 19:34:25,311 - httpx - INFO - HTTP Request: GET https://4zsnm3iqqeeidkrsqvr1q.c0.europe-west3.gcp.weaviate.cloud/v1/schema/Movie "HTTP/1.1 200 OK"
+2025-08-29 19:34:25,371 - httpx - INFO - HTTP Request: GET https://4zsnm3iqqeeidkrsqvr1q.c0.europe-west3.gcp.weaviate.cloud/v1/nodes "HTTP/1.1 200 OK"
+2025-08-29 19:34:26,415 - search_engine - INFO - [ThreadPoolExecutor-1_0] No specific director or movie titles found. Performing local semantic search...
+2025-08-29 19:34:26,432 - httpx - INFO - HTTP Request: GET https://4zsnm3iqqeeidkrsqvr1q.c0.europe-west3.gcp.weaviate.cloud/v1/nodes "HTTP/1.1 200 OK"
+2025-08-29 19:34:26,556 - httpx - INFO - HTTP Request: GET https://4zsnm3iqqeeidkrsqvr1q.c0.europe-west3.gcp.weaviate.cloud/v1/schema/Movie "HTTP/1.1 200 OK"
+2025-08-29 19:34:26,649 - search_engine - INFO - [ThreadPoolExecutor-1_0] Search pipeline finished. Returning results.
+2025-08-29 19:34:26,650 - __main__ - INFO - 
+--- Search for 'A horror movie with suspenseful elements' completed. Results collected. ---
+2025-08-29 19:34:26,650 - __main__ - INFO - 
+--- All search tasks have completed in 8.65 seconds. ---
+2025-08-29 19:34:26,651 - __main__ - INFO - 
+--- Final Collected Results ---
+2025-08-29 19:34:26,651 - __main__ - INFO - 
+--- Results for query: 'I want to see movies by Gaspar Noe from the 2000s' ---
+2025-08-29 19:34:26,651 - __main__ - INFO - TMDb Results:
+2025-08-29 19:34:26,652 - __main__ - INFO - - Irreversible
+2025-08-29 19:34:26,652 - __main__ - INFO - - Love
+2025-08-29 19:34:26,653 - __main__ - INFO - - Climax
+2025-08-29 19:34:26,653 - __main__ - INFO - - Enter the Void
+2025-08-29 19:34:26,653 - __main__ - INFO - - Destricted
+2025-08-29 19:34:26,654 - __main__ - INFO - - Carne
+2025-08-29 19:34:26,655 - __main__ - INFO - - 8
+2025-08-29 19:34:26,655 - __main__ - INFO - - Circus Maximus
+2025-08-29 19:34:26,655 - __main__ - INFO - - I Stand Alone
+2025-08-29 19:34:26,655 - __main__ - INFO - - Pulpe Amère
+2025-08-29 19:34:26,655 - __main__ - INFO - - Untitled Gaspar Noé kids film
+2025-08-29 19:34:26,655 - __main__ - INFO - - Eva
+2025-08-29 19:34:26,656 - __main__ - INFO - - A Hypnotic Television Experience
+2025-08-29 19:34:26,656 - __main__ - INFO - - Vortex
+2025-08-29 19:34:26,656 - __main__ - INFO - - Lux Æterna: The Art of Filmmaking
+2025-08-29 19:34:26,656 - __main__ - INFO - - Lux Æterna
+2025-08-29 19:34:26,656 - __main__ - INFO - - 7 Days in Havana
+2025-08-29 19:34:26,656 - __main__ - INFO - - Intoxication
+2025-08-29 19:34:26,656 - __main__ - INFO - - Short Plays
+2025-08-29 19:34:26,656 - __main__ - INFO - - 42 One Dream Rush
+2025-08-29 19:34:26,657 - __main__ - INFO - - Tintarella di Luna
+2025-08-29 19:34:26,657 - __main__ - INFO - - 8: SIDA
+2025-08-29 19:34:26,657 - __main__ - INFO - - Sodomites
+2025-08-29 19:34:26,657 - __main__ - INFO - - Destricted: We Fuck Alone
+2025-08-29 19:34:26,657 - __main__ - INFO - Weaviate Results:
+2025-08-29 19:34:26,657 - __main__ - INFO - - The Shining (Distance: 0.7915, Certainty: 0.6042)
+2025-08-29 19:34:26,657 - __main__ - INFO - - Marley & Me (Distance: 0.8198, Certainty: 0.5901)
+2025-08-29 19:34:26,657 - __main__ - INFO - - Life Is Beautiful (Distance: 0.8635, Certainty: 0.5683)
+2025-08-29 19:34:26,658 - __main__ - INFO - - Hachi: A Dog's Tale (Distance: 0.8662, Certainty: 0.5669)
+2025-08-29 19:34:26,658 - __main__ - INFO - - Up (Distance: 0.9053, Certainty: 0.5473)
+2025-08-29 19:34:26,658 - __main__ - INFO - - The Green Mile (Distance: 0.9144, Certainty: 0.5428)
+2025-08-29 19:34:26,658 - __main__ - INFO - - A Walk to Remember (Distance: 0.9487, Certainty: 0.5257)
+2025-08-29 19:34:26,658 - __main__ - INFO - - Jaws (Distance: 0.9505, Certainty: 0.5247)
+2025-08-29 19:34:26,658 - __main__ - INFO - - P.S. I Love You (Distance: 0.9564, Certainty: 0.5218)
+2025-08-29 19:34:26,658 - __main__ - INFO - - My Sister's Keeper (Distance: 1.0576, Certainty: 0.4712)
+2025-08-29 19:34:26,658 - __main__ - INFO - 
+--- Results for query: 'A horror movie with suspenseful elements' ---
+2025-08-29 19:34:26,658 - __main__ - INFO - TMDb Results:
+2025-08-29 19:34:26,659 - __main__ - INFO - - The Babadook
+2025-08-29 19:34:26,659 - __main__ - INFO - - Hereditary
+2025-08-29 19:34:26,659 - __main__ - INFO - - It Follows
+2025-08-29 19:34:26,659 - __main__ - INFO - - A Quiet Place
+2025-08-29 19:34:26,660 - __main__ - INFO - - Get Out
+2025-08-29 19:34:26,660 - __main__ - INFO - - The Conjuring
+2025-08-29 19:34:26,660 - __main__ - INFO - - Insidious
+2025-08-29 19:34:26,661 - __main__ - INFO - - The Ring
+2025-08-29 19:34:26,661 - __main__ - INFO - - Alien
+2025-08-29 19:34:26,661 - __main__ - INFO - - The Blair Witch Project
+2025-08-29 19:34:26,661 - __main__ - INFO - Weaviate Results:
+2025-08-29 19:34:26,661 - __main__ - INFO - - The Conjuring (Distance: 0.6073, Certainty: 0.6964)
+2025-08-29 19:34:26,661 - __main__ - INFO - - Insidious (Distance: 0.6400, Certainty: 0.6800)
+2025-08-29 19:34:26,661 - __main__ - INFO - - Marley & Me (Distance: 0.6507, Certainty: 0.6747)
+2025-08-29 19:34:26,662 - __main__ - INFO - - The Green Mile (Distance: 0.6599, Certainty: 0.6700)
+2025-08-29 19:34:26,662 - __main__ - INFO - - Hachi: A Dog's Tale (Distance: 0.6824, Certainty: 0.6588)
+2025-08-29 19:34:26,662 - __main__ - INFO - - Jaws (Distance: 0.7428, Certainty: 0.6286)
+2025-08-29 19:34:26,662 - __main__ - INFO - - The Shining (Distance: 0.7545, Certainty: 0.6228)
+2025-08-29 19:34:26,662 - __main__ - INFO - - Life Is Beautiful (Distance: 0.7698, Certainty: 0.6151)
+2025-08-29 19:34:26,662 - __main__ - INFO - - Up (Distance: 0.8309, Certainty: 0.5845)
+2025-08-29 19:34:26,662 - __main__ - INFO - - My Sister's Keeper (Distance: 0.8571, Certainty: 0.5714)
+2025-08-29 19:34:26,663 - __main__ - INFO - 
+--- Application Finished ---

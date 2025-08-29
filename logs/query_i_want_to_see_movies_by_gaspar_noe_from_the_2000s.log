@@ -1,0 +1,9 @@
+2025-08-29 19:36:59,932 - query_logger_i_want_to_see_movies_by_gaspar_noe_from_the_2000s - INFO - 
+[ThreadPoolExecutor-1_1] --- Phase 2: Starting Smart Search Pipeline for 'I want to see movies by Gaspar Noe from the 2000s' ---
+2025-08-29 19:37:01,311 - query_logger_i_want_to_see_movies_by_gaspar_noe_from_the_2000s - INFO - [ThreadPoolExecutor-1_1] Query parsed by Gemini: {'director': 'Gaspar Noe', 'start_year': 2000, 'end_year': 2009, 'keywords': ['gaspar', 'noe', '2000s'], 'movie_titles': []}
+2025-08-29 19:37:01,311 - query_logger_i_want_to_see_movies_by_gaspar_noe_from_the_2000s - INFO - 
+ 
+ parsed_query: {'director': 'Gaspar Noe', 'start_year': 2000, 'end_year': 2009, 'keywords': ['gaspar', 'noe', '2000s'], 'movie_titles': []}
+2025-08-29 19:37:01,311 - query_logger_i_want_to_see_movies_by_gaspar_noe_from_the_2000s - INFO - [ThreadPoolExecutor-1_1] Director 'Gaspar Noe' found. Skipping Weaviate, going directly to TMDb.
+2025-08-29 19:37:01,872 - query_logger_i_want_to_see_movies_by_gaspar_noe_from_the_2000s - INFO - [ThreadPoolExecutor-1_1] No specific director or movie titles found. Performing local semantic search...
+2025-08-29 19:37:07,775 - query_logger_i_want_to_see_movies_by_gaspar_noe_from_the_2000s - INFO - [ThreadPoolExecutor-1_1] Search pipeline finished. Returning results.

@@ -1,0 +1,9 @@
+2025-08-29 19:36:59,930 - query_logger_a_horror_movie_with_suspenseful_elements - INFO - 
+[ThreadPoolExecutor-1_0] --- Phase 2: Starting Smart Search Pipeline for 'A horror movie with suspenseful elements' ---
+2025-08-29 19:37:04,337 - query_logger_a_horror_movie_with_suspenseful_elements - INFO - [ThreadPoolExecutor-1_0] Query parsed by Gemini: {'keywords': [], 'director': None, 'start_year': None, 'end_year': None, 'movie_titles': ['movie_titles', 'Psycho', 'The Silence of the Lambs', "Rosemary's Baby", 'Alien', 'The Ring', 'The Babadook', 'It Follows', 'Get Out', 'Hereditary', 'A Quiet Place']}
+2025-08-29 19:37:04,338 - query_logger_a_horror_movie_with_suspenseful_elements - INFO - 
+ 
+ parsed_query: {'keywords': [], 'director': None, 'start_year': None, 'end_year': None, 'movie_titles': ['movie_titles', 'Psycho', 'The Silence of the Lambs', "Rosemary's Baby", 'Alien', 'The Ring', 'The Babadook', 'It Follows', 'Get Out', 'Hereditary', 'A Quiet Place']}
+2025-08-29 19:37:04,338 - query_logger_a_horror_movie_with_suspenseful_elements - INFO - [ThreadPoolExecutor-1_0] Gemini returned movie titles. Skipping Weaviate, going directly to TMDb.
+2025-08-29 19:37:07,683 - query_logger_a_horror_movie_with_suspenseful_elements - INFO - [ThreadPoolExecutor-1_0] No specific director or movie titles found. Performing local semantic search...
+2025-08-29 19:37:07,901 - query_logger_a_horror_movie_with_suspenseful_elements - INFO - [ThreadPoolExecutor-1_0] Search pipeline finished. Returning results.
